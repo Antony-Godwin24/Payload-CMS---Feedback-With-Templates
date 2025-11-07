@@ -1,67 +1,122 @@
-# Payload Blank Template
+# Feedback & Rating Platform (Payload CMS + Next.js)
 
-This template comes configured with the bare minimum to get started on anything you need.
+Unified application that bundles the Payload CMS admin, REST APIs, and a modern customer-facing Next.js 15 frontend. Customers can browse template listings, view live demos, submit star ratings, and leave feedback. Content editors manage templates and feedback directly from the Payload admin UI at `/admin`.
 
-## Quick start
+## ✨ Features
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+- Template marketplace with images, pricing, demo URLs, categories, tags, and publish workflow
+- Interactive template listing (`/templates`) with category filters, live demo buttons, and rating overlays
+- Template detail views (`/templates/[id]`) with live rating summaries, feedback list, and feedback submission form
+- Feedback moderation workflow (approved/pending/rejected) synced automatically with template rating aggregates
+- Payload Admin UI mounted at `/admin` using the official `@payloadcms/next` integration
+- Flexible database layer: SQLite for local development, MongoDB Atlas for production hosting (Vercel ready)
 
-## Quick Start - local setup
+## 📁 Project Structure
 
-To spin up this template locally, follow these steps:
+```
+payload-backend/
+├── public/                      # Static assets served by Next.js
+├── src/
+│   ├── app/
+│   │   ├── page.tsx             # Landing page
+│   │   ├── templates/
+│   │   │   ├── page.tsx         # Template catalogue
+│   │   │   └── [id]/page.tsx    # Template detail + feedback
+│   │   ├── feedback/page.tsx    # Feedback CTA page
+│   │   └── (payload)/…          # Payload admin + APIs
+│   ├── components/              # Reusable UI (cards, forms, ratings…)
+│   ├── lib/payload-api.ts       # Client-side API helpers
+│   ├── collections/             # Payload collections (Templates, Feedbacks, Media, Users)
+│   └── payload.config.ts        # Payload configuration
+├── next.config.mjs              # Next.js configuration (standalone build)
+├── package.json
+├── pnpm-lock.yaml
+└── vercel.json                  # Build commands for Vercel
+```
 
-### Clone
+## 🧩 Prerequisites
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+- Node.js **18.20+** or **20.9+**
+- pnpm **9+** (recommended) or npm
+- SQLite (bundled) for local development — no additional setup required
+- MongoDB Atlas cluster for production deployment (optional but recommended)
 
-### Development
+## ⚙️ Environment Variables
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URI` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+Create a `.env.local` file for local development and configure the following keys:
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+```env
+# Required in all environments
+PAYLOAD_SECRET=dev-secret-change-me
+NEXT_PUBLIC_SERVER_URL=http://localhost:3000
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+# Optional (only needed when you want to force SQLite to a custom path)
+# SQLITE_DB_PATH=../.payload/data.db   # customise SQLite location
+# SQLITE_DB_PATH=../payload-backend.db
 
-#### Docker (Optional)
+# Leave DATABASE_URI unset locally to use SQLite
+# DATABASE_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/database
+```
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+Optional overrides:
+```env
+# SQLITE_DB_PATH=../.payload/data.db   # customise SQLite location
+```
 
-To do so, follow these steps:
+> Tip: keep the database outside synced folders (the default `.payload/` path avoids OneDrive locks).
 
-- Modify the `MONGODB_URI` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URI` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+For **production / Vercel deployment**, set:
 
-## How it works
+- `PAYLOAD_SECRET` – a long random string
+- `NEXT_PUBLIC_SERVER_URL` – `https://your-vercel-domain.vercel.app`
+- `DATABASE_URI` – MongoDB Atlas connection string (`mongodb+srv://…`)
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+When `DATABASE_URI` or `MONGODB_URI` is provided with a Mongo connection string, Payload transparently switches to the Mongo adapter. Otherwise it falls back to SQLite using `payload-backend.db` (ignored by git).
 
-### Collections
+## 🚀 Development Workflow
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+```bash
+pnpm install               # install dependencies
+pnpm generate:types        # sync Payload types (run whenever collections change)
+pnpm dev                   # start Next.js + Payload on http://localhost:3000
+```
 
-- #### Users (Authentication)
+On first run:
 
-  Users are auth-enabled collections that have access to the admin panel.
+1. Visit `http://localhost:3000/admin`
+2. Register the first admin user
+3. Create templates and upload media
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+## 🧱 Available Scripts
 
-- #### Media
+| Script               | Description                                             |
+| -------------------- | ------------------------------------------------------- |
+| `pnpm dev`           | Next.js dev server + Payload CMS                        |
+| `pnpm build`         | Production build (`next build`)                         |
+| `pnpm start`         | Start production server (`next start`)                  |
+| `pnpm generate:types`| Regenerate `payload-types.ts`                           |
+| `pnpm lint`          | Run Next.js ESLint                                      |
+| `pnpm test`          | Runs existing vitest + Playwright suites (optional)     |
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+## 📦 Deployment (Vercel)
 
-### Docker
+1. Push the project to GitHub/GitLab/Bitbucket
+2. Create a new Vercel project and import the repo
+3. Configure environment variables in Vercel → **Project Settings → Environment Variables**:
+   - `PAYLOAD_SECRET`
+   - `NEXT_PUBLIC_SERVER_URL` (e.g. `https://your-app.vercel.app`)
+   - `DATABASE_URI` (MongoDB Atlas)
+4. Vercel will run `pnpm install` followed by `pnpm generate:types && pnpm build` (see `vercel.json`)
+5. Trigger a deployment — the admin interface is available at `/admin`
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
+## 🗃️ SQLite vs MongoDB
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+- **Local**: leave `DATABASE_URI` empty — Payload uses a file-based SQLite DB (`payload-backend.db`).
+- **Production**: provide a Mongo connection string via `DATABASE_URI` and Payload switches to the Mongo adapter automatically.
+- The SQLite file is ignored via `.gitignore`. Delete it (`payload-backend.db`) whenever you want a fresh local dataset.
+- Local development defaults to SQLite at `payload-backend/.payload/data.db` (auto-created)
+- Production deployments (Vercel) use MongoDB Atlas via `DATABASE_URI`
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+## 🔗 Helpful Routes
 
-## Questions
-
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+- `/`"# Payload-CMS---Feedback-With-Templates" 
