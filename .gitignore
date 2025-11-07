@@ -42,9 +42,15 @@ next-env.d.ts
 
 /media
 
+# local sqlite files
+payload-backend.db
+payload-backend-new.db
+
 # Playwright
 node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+.payload/

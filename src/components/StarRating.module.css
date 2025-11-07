@@ -1,0 +1,44 @@
+.starRating {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-family: inherit;
+}
+
+.small {
+  font-size: 14px;
+}
+
+.medium {
+  font-size: 20px;
+}
+
+.large {
+  font-size: 28px;
+}
+
+.star {
+  color: #ddd;
+  transition: color 0.2s ease, transform 0.1s ease;
+  user-select: none;
+}
+
+.interactive .star:hover {
+  transform: scale(1.1);
+}
+
+.filled {
+  color: #ffc107;
+}
+
+.empty {
+  color: #ddd;
+}
+
+.ratingText {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+

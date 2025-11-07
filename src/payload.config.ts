@@ -1,14 +1,18 @@
 // storage-adapter-import-placeholder
+import fs from 'fs'
+import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
-import { fileURLToPath } from 'url'
+import { fileURLToPath, pathToFileURL } from 'url'
 import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Feedbacks } from './collections/Feedbacks'
+import { Templates } from './collections/Templates'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -20,20 +24,51 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [
+    Users,
+    Media,
+    Feedbacks,
+    Templates,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: sqliteAdapter({
-    client: {
-      url: process.env.DATABASE_URI || '',
-    },
-  }),
+  db: (() => {
+    const mongoUrl = process.env.DATABASE_URI || process.env.MONGODB_URI || ''
+    const useMongo = mongoUrl.startsWith('mongodb://') || mongoUrl.startsWith('mongodb+srv://')
+
+    if (useMongo) {
+      return mongooseAdapter({
+        url: mongoUrl,
+      })
+    }
+
+    const sqliteFile = path.resolve(dirname, process.env.SQLITE_DB_PATH || '../.payload/data.db')
+    fs.mkdirSync(path.dirname(sqliteFile), { recursive: true })
+
+    return sqliteAdapter({
+      client: {
+        url: pathToFileURL(sqliteFile).href,
+      },
+    })
+  })(),
   sharp,
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder
+  ],
+  cors: [
+    'http://localhost:3001', // React dev server
+    'http://127.0.0.1:3001',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+  ],
+  csrf: [
+    'http://localhost:3001',
+    'http://127.0.0.1:3001',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
   ],
 })
