@@ -5,8 +5,11 @@ import type { Feedback, Template } from '@/payload-types'
 import configPromise from '@/payload.config'
 import TemplateDetail from '@/components/TemplateDetail'
 
-export default async function TemplateDetailPage({ params }: { params: { id: string } }) {
-  const templateId = Number(params.id)
+export default async function TemplateDetailPage(props: { params?: Promise<{ id?: string | string[] }>; searchParams?: Promise<any> }) {
+const resolvedParams = await props.params
+const idParam = resolvedParams?.id
+const idStr = Array.isArray(idParam) ? idParam[0] : idParam ?? ''
+const templateId = Number(idStr)
 
   if (Number.isNaN(templateId)) {
     notFound()
