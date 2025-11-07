@@ -5,13 +5,7 @@ import type { Feedback, Template } from '@/payload-types'
 import configPromise from '@/payload.config'
 import TemplateDetail from '@/components/TemplateDetail'
 
-type TemplateDetailPageProps = {
-  params: {
-    id: string
-  }
-}
-
-export default async function TemplateDetailPage({ params }: TemplateDetailPageProps) {
+export default async function TemplateDetailPage({ params }: { params: { id: string } }) {
   const templateId = Number(params.id)
 
   if (Number.isNaN(templateId)) {
