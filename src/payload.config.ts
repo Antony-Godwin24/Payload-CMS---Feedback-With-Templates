@@ -39,6 +39,9 @@ export default buildConfig({
     const mongoUrl = process.env.DATABASE_URI || process.env.MONGODB_URI || ''
     const useMongo = mongoUrl.startsWith('mongodb://') || mongoUrl.startsWith('mongodb+srv://')
 
+    // Log which adapter is selected (helps debugging on Vercel). Do NOT log the full URL.
+    console.log('payload: using mongo adapter?', useMongo)
+
     if (useMongo) {
       return mongooseAdapter({
         url: mongoUrl,
@@ -64,11 +67,17 @@ export default buildConfig({
     'http://127.0.0.1:3001',
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-  ],
+  ].concat(
+    // allow production origin(s) if provided
+    [process.env.NEXT_PUBLIC_SERVER_URL, process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined].filter(Boolean) as string[],
+  ),
+
   csrf: [
     'http://localhost:3001',
     'http://127.0.0.1:3001',
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-  ],
+  ].concat(
+    [process.env.NEXT_PUBLIC_SERVER_URL, process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined].filter(Boolean) as string[],
+  ),
 })
