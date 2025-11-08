@@ -63,6 +63,18 @@ const templateId = Number(idStr)
     console.error('Failed to load feedbacks', error)
   }
 
-  return <TemplateDetail initialFeedbacks={feedbacks} template={template} />
+return (
+  <TemplateDetail
+    initialFeedbacks={feedbacks}
+    template={{
+      ...template!,
+      image:
+        typeof template?.image === 'object' && template?.image !== null
+          ? template.image
+          : typeof template?.image === 'number'
+          ? template.image
+          : 0, // fallback to 0 if image is missing or invalid
+    }}
+  />
+)
 }
-

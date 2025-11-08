@@ -12,7 +12,7 @@ import StarRating from './StarRating'
 import styles from './TemplateDetail.module.css'
 
 type TemplateWithRelations = Template & {
-  image?: Template['image'] & (Media | number | null)
+  image: number | Media;
 }
 
 type TemplateDetailProps = {
