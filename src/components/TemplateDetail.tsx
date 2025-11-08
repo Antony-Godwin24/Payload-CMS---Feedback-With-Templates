@@ -11,14 +11,25 @@ import FeedbackList from './FeedbackList'
 import StarRating from './StarRating'
 import styles from './TemplateDetail.module.css'
 
+// type TemplateWithRelations = Template & {
+//   image: number | Media;
+// }
+
 type TemplateWithRelations = Template & {
-  image: number | Media;
+  id: string | number;
+  image: string | number | Media;
 }
+// At the top of your TemplateDetail.tsx or a shared types.ts file:
+export type TemplateForFrontend = Omit<Template, 'id' | 'image'> & {
+  id: string | number;
+  image: string | number | Media;
+};
 
 type TemplateDetailProps = {
-  template: TemplateWithRelations
-  initialFeedbacks: Feedback[]
-}
+  template: TemplateForFrontend;
+  initialFeedbacks: Feedback[];
+};
+
 
 const CATEGORY_COLORS: Record<string, string> = {
   website: '#3b82f6',
@@ -142,12 +153,19 @@ export default function TemplateDetail({ template, initialFeedbacks }: TemplateD
 
       {showFeedbackForm ? (
         <div className={styles.feedbackSection}>
-          <FeedbackForm
+          {/* <FeedbackForm
             onCancel={() => setShowFeedbackForm(false)}
             onSubmit={handleSubmitFeedback}
             templateId={template.id}
             templateTitle={template.title}
-          />
+          /> */}
+          <FeedbackForm
+  onCancel={() => setShowFeedbackForm(false)}
+  onSubmit={handleSubmitFeedback}
+  templateId={typeof template.id === "string" ? Number(template.id) : template.id}
+  templateTitle={template.title}
+/>
+
         </div>
       ) : null}
 

@@ -88,7 +88,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   globals: {};
   globalsSelect: {};
@@ -124,7 +124,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -148,7 +148,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -167,7 +167,7 @@ export interface Media {
  * via the `definition` "feedbacks".
  */
 export interface Feedback {
-  id: number;
+  id: string;
   name: string;
   email: string;
   /**
@@ -181,7 +181,7 @@ export interface Feedback {
   /**
    * The template this feedback is for
    */
-  template: number | Template;
+  template: string | Template;
   /**
    * Moderation status of the feedback
    */
@@ -194,11 +194,11 @@ export interface Feedback {
  * via the `definition` "templates".
  */
 export interface Template {
-  id: number;
+  id: string;
   title: string;
   description: string;
   shortDescription?: string | null;
-  image: number | Media;
+  image: string | Media;
   demoUrl: string;
   category: 'website' | 'dashboard' | 'portfolio' | 'ecommerce' | 'landing' | 'blog' | 'other';
   price: number;
@@ -225,7 +225,7 @@ export interface Template {
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: number;
+  id: string;
   key: string;
   data:
     | {
@@ -242,32 +242,32 @@ export interface PayloadKv {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: string;
   document?:
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: number | Media;
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'feedbacks';
-        value: number | Feedback;
+        value: string | Feedback;
       } | null)
     | ({
         relationTo: 'templates';
-        value: number | Template;
+        value: string | Template;
       } | null)
     | ({
         relationTo: 'payload-kv';
-        value: number | PayloadKv;
+        value: string | PayloadKv;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -277,10 +277,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -300,7 +300,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
