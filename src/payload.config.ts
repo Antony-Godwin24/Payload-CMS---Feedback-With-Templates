@@ -31,23 +31,49 @@ export default buildConfig({
     Templates,
   ],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: (() => {
+    const secret = process.env.PAYLOAD_SECRET
+    if (!secret) {
+      if (process.env.VERCEL) {
+        throw new Error(
+          'PAYLOAD_SECRET is required on Vercel. ' +
+          'Please set PAYLOAD_SECRET environment variable in Vercel project settings.'
+        )
+      }
+      console.warn('⚠️  PAYLOAD_SECRET is not set. Using empty string (not recommended for production)')
+    }
+    return secret || ''
+  })(),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: (() => {
     const mongoUrl = process.env.DATABASE_URI || process.env.MONGODB_URI || ''
     const useMongo = mongoUrl.startsWith('mongodb://') || mongoUrl.startsWith('mongodb+srv://')
+    const isVercel = !!process.env.VERCEL
 
     // Log which adapter is selected (helps debugging on Vercel). Do NOT log the full URL.
     console.log('payload: using mongo adapter?', useMongo)
+    console.log('payload: is Vercel?', isVercel)
+
+    // On Vercel, MongoDB is required (SQLite doesn't work on serverless)
+    if (isVercel && !useMongo) {
+      throw new Error(
+        'DATABASE_URI (MongoDB) is required on Vercel. SQLite is not supported on serverless functions. ' +
+        'Please set DATABASE_URI environment variable in Vercel project settings.'
+      )
+    }
 
     if (useMongo) {
+      if (!mongoUrl) {
+        throw new Error('DATABASE_URI is required when using MongoDB adapter')
+      }
       return mongooseAdapter({
         url: mongoUrl,
       })
     }
 
+    // SQLite only for local development
     const sqliteFile = path.resolve(dirname, process.env.SQLITE_DB_PATH || '../.payload/data.db')
     fs.mkdirSync(path.dirname(sqliteFile), { recursive: true })
 
