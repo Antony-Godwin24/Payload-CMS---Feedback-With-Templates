@@ -5,7 +5,7 @@
   "buildCommand": "pnpm generate:types && pnpm build",
   "regions": ["iad1"],
   "functions": {
-    "src/app/api/**/*": {
+    "src/app/**/api/**/*.ts": {
       "memory": 1024,
       "maxDuration": 60
     }

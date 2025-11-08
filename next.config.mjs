@@ -1,17 +1,16 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 
-/** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
-  webpack: (webpackConfig) => {
-    webpackConfig.resolve.extensionAlias = {
+  // Removed 'standalone' output mode - not compatible with Vercel serverless functions
+  // Vercel uses serverless functions by default
+  webpack: (config) => {
+    config.resolve.extensionAlias = {
       '.cjs': ['.cts', '.cjs'],
       '.js': ['.ts', '.tsx', '.js', '.jsx'],
       '.mjs': ['.mts', '.mjs'],
-    }
-
-    return webpackConfig
+    };
+    return config;
   },
-}
+};
 
-export default withPayload(nextConfig, { devBundleServerPackages: false })
+export default withPayload(nextConfig, { devBundleServerPackages: false });
