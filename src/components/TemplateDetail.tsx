@@ -160,11 +160,11 @@ export default function TemplateDetail({ template, initialFeedbacks }: TemplateD
             templateTitle={template.title}
           /> */}
           <FeedbackForm
-  onCancel={() => setShowFeedbackForm(false)}
-  onSubmit={handleSubmitFeedback}
-  templateId={typeof template.id === "string" ? Number(template.id) : template.id}
-  templateTitle={template.title}
-/>
+            onCancel={() => setShowFeedbackForm(false)}
+            onSubmit={handleSubmitFeedback}
+            templateId={String(template.id)}
+            templateTitle={template.title}
+          />
 
         </div>
       ) : null}

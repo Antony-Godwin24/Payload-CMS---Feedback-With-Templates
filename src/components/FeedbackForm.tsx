@@ -17,11 +17,11 @@ export type FeedbackSubmission = {
   email: string
   rating: number
   comment?: string
-  template: number
+  template: string
 }
 
 type FeedbackFormProps = {
-  templateId: number
+  templateId: string
   templateTitle?: string
   onSubmit: (values: FeedbackSubmission) => Promise<void>
   onCancel?: () => void

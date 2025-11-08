@@ -83,7 +83,7 @@ export const postFeedback = async (data: {
   email: string
   rating: number
   comment?: string
-  template: number
+  template: string
 }): Promise<Feedback> => {
   const response = await API.post<Feedback>('/feedbacks', {
     status: 'approved',

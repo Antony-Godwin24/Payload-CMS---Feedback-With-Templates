@@ -13,10 +13,6 @@ type TemplateCategory = {
   label: string
 }
 
-type TemplateDoc = Template & {
-  id: number
-}
-
 const CATEGORIES: TemplateCategory[] = [
   { value: 'all', label: 'All Templates' },
   { value: 'website', label: 'Website' },
@@ -29,7 +25,7 @@ const CATEGORIES: TemplateCategory[] = [
 ]
 
 export default function TemplatesPage() {
-  const [templates, setTemplates] = useState<TemplateDoc[]>([])
+  const [templates, setTemplates] = useState<Template[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

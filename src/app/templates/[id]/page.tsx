@@ -8,10 +8,9 @@ import TemplateDetail from '@/components/TemplateDetail'
 export default async function TemplateDetailPage(props: { params?: Promise<{ id?: string | string[] }>; searchParams?: Promise<any> }) {
   const resolvedParams = await props.params
   const idParam = resolvedParams?.id
-  const idStr = Array.isArray(idParam) ? idParam[0] : idParam ?? ''
-  const templateId = Number(idStr)
+  const templateId = Array.isArray(idParam) ? idParam[0] : idParam ?? ''
 
-  if (Number.isNaN(templateId)) {
+  if (!templateId || templateId.trim() === '') {
     notFound()
   }
 
