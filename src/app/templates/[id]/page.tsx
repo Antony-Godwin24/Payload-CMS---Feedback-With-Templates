@@ -65,9 +65,7 @@ export default async function TemplateDetailPage(props: { params?: Promise<{ id?
   return (
     <TemplateDetail
       initialFeedbacks={feedbacks}
-      template={{
-        ...template!
-      }}
+      template={template}
     />
   )
 }

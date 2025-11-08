@@ -8,12 +8,8 @@ import type { Media, Template } from '@/payload-types'
 import StarRating from './StarRating'
 import styles from './TemplateCard.module.css'
 
-type TemplateWithRelations = Template & {
-  image?: Template['image'] & (Media | number | null)
-}
-
 type TemplateCardProps = {
-  template: TemplateWithRelations
+  template: Template
   onViewDemo?: (demoUrl: string | null | undefined) => void
   detailsHref?: string
 }

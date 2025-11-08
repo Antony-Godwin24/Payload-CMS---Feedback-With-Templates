@@ -11,22 +11,8 @@ import FeedbackList from './FeedbackList'
 import StarRating from './StarRating'
 import styles from './TemplateDetail.module.css'
 
-// type TemplateWithRelations = Template & {
-//   image: number | Media;
-// }
-
-type TemplateWithRelations = Template & {
-  id: string | number;
-  image: string | number | Media;
-}
-// At the top of your TemplateDetail.tsx or a shared types.ts file:
-export type TemplateForFrontend = Omit<Template, 'id' | 'image'> & {
-  id: string | number;
-  image: string | number | Media;
-};
-
 type TemplateDetailProps = {
-  template: TemplateForFrontend;
+  template: Template;
   initialFeedbacks: Feedback[];
 };
 
