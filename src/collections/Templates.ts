@@ -132,7 +132,14 @@ export const Templates: CollectionConfig = {
         try {
           // Defensive: ensure doc and doc.id exist
           if (!doc || !doc.id) {
-            req.logger && req.logger.warn && req.logger.warn('Templates.afterChange: missing doc or doc.id', { doc })
+            // req may be undefined in some hook contexts; guard access to logger
+            if (req && req.payload && req.payload.logger) {
+              req.payload.logger.warn('Templates.afterChange: missing doc or doc.id', doc)
+            } else if (typeof console !== 'undefined' && typeof console.warn === 'function') {
+              // fallback to console if no request logger is available
+              // eslint-disable-next-line no-console
+              console.warn('Templates.afterChange: missing doc or doc.id', { doc })
+            }
             return
           }
 
@@ -173,8 +180,8 @@ export const Templates: CollectionConfig = {
           }
         } catch (err) {
           // Log error but don't crash the request pipeline
-          if (req && req.logger && typeof req.logger.error === 'function') {
-            req.logger.error('Templates.afterChange error', err)
+          if (req && req.payload && req.payload.logger) {
+            req.payload.logger.error(err, 'Templates.afterChange error')
           } else {
             // fallback console
             // eslint-disable-next-line no-console

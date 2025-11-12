@@ -11,12 +11,15 @@ export type PaginatedDocs<T> = {
 }
 
 const resolveBaseUrl = () => {
-  const url =
+  // Read envs and defensively trim whitespace so accidental spaces don't produce invalid URLs
+  const raw =
     process.env.NEXT_PUBLIC_SERVER_URL ??
     process.env.SERVER_URL ??
     (typeof window === 'undefined' ? 'http://localhost:3000' : '')
 
-  return url.replace(/\/$/, '')
+  const url = typeof raw === 'string' ? raw.trim() : raw
+
+  return (url || '').replace(/\/$/, '')
 }
 
 const API = axios.create({
@@ -83,7 +86,7 @@ export const postFeedback = async (data: {
   email: string
   rating: number
   comment?: string
-  template: string
+  template: number | string
 }): Promise<Feedback> => {
   const response = await API.post<Feedback>('/feedbacks', {
     status: 'approved',

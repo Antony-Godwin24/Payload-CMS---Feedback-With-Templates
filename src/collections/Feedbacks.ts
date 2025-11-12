@@ -77,7 +77,7 @@ export const Feedbacks: CollectionConfig = {
             const templateId = doc && typeof doc.template === 'object' ? doc.template.id : doc && doc.template
 
             if (!templateId) {
-              req.logger && req.logger.warn && req.logger.warn('Feedbacks.afterChange: missing template id', { doc })
+              console.warn('Feedbacks.afterChange: missing template id', { doc })
               return
             }
 
@@ -117,12 +117,8 @@ export const Feedbacks: CollectionConfig = {
             }
           }
         } catch (err) {
-          if (req && req.logger && typeof req.logger.error === 'function') {
-            req.logger.error('Feedbacks.afterChange error', err)
-          } else {
-            // eslint-disable-next-line no-console
-            console.error('Feedbacks.afterChange error', err)
-          }
+          // eslint-disable-next-line no-console
+          console.error('Feedbacks.afterChange error', err)
         }
       },
     ],

@@ -148,7 +148,7 @@ export default function TemplateDetail({ template, initialFeedbacks }: TemplateD
           <FeedbackForm
             onCancel={() => setShowFeedbackForm(false)}
             onSubmit={handleSubmitFeedback}
-            templateId={String(template.id)}
+            templateId={template.id}
             templateTitle={template.title}
           />
 
