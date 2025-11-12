@@ -1,9 +1,9 @@
 .templateCard {
-  background: #ffffff;
-  border-radius: 12px;
+  background: linear-gradient(180deg, #fbfeff 0%, #ffffff 100%);
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 22px rgba(8, 15, 20, 0.06);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -40,13 +40,13 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: linear-gradient(180deg, rgba(7,46,41,0.55), rgba(12,68,61,0.2));
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.28s ease;
 }
 
 .templateCard:hover .overlay {
@@ -57,13 +57,13 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  padding: 4px 12px;
-  border-radius: 20px;
+  padding: 6px 12px;
+  border-radius: 999px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   z-index: 2;
-  background: #10b981;
+  background: #7c3aed;
   color: white;
 }
 
@@ -83,19 +83,19 @@
 }
 
 .title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1f2937;
+  font-size: 17px;
+  font-weight: 700;
+  color: #052f2a;
   margin: 0;
   flex: 1;
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 .category {
   padding: 4px 10px;
-  border-radius: 12px;
+  border-radius: 999px;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   color: white;
   text-transform: uppercase;
   white-space: nowrap;
@@ -114,8 +114,8 @@
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
-  padding-top: 16px;
-  border-top: 1px solid #e5e7eb;
+  padding-top: 12px;
+  border-top: 1px solid rgba(13,148,136,0.06);
 }
 
 .ratingSection {
@@ -150,23 +150,23 @@
 }
 
 .primaryButton {
-  background: #3b82f6;
+  background: #0ea5a4;
   color: white;
 }
 
 .primaryButton:hover {
-  background: #2563eb;
-  transform: scale(1.05);
+  background: #0b8f86;
+  transform: scale(1.02);
 }
 
 .secondaryButton {
   background: white;
-  color: #3b82f6;
-  border: 2px solid #3b82f6;
+  color: #0ea5a4;
+  border: 2px solid rgba(14,165,164,0.18);
 }
 
 .secondaryButton:hover {
-  background: #3b82f6;
+  background: #0ea5a4;
   color: white;
 }
 

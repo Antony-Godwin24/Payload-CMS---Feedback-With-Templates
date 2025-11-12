@@ -1,27 +1,28 @@
 .container {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
-  background: white;
-  border-radius: 16px;
-  padding: 40px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  background: #fbfeff;
+  border-radius: 14px;
+  padding: 36px;
+  box-shadow: 0 10px 30px rgba(8, 15, 20, 0.06);
 }
 
 .backButton {
-  background: #f3f4f6;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
+  background: transparent;
+  border: 2px solid rgba(13, 148, 136, 0.12);
+  padding: 8px 18px;
+  border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
-  color: #374151;
+  color: #0f766e;
   cursor: pointer;
-  margin-bottom: 24px;
-  transition: background 0.2s ease;
+  margin-bottom: 20px;
+  transition: all 0.18s ease;
 }
 
 .backButton:hover {
-  background: #e5e7eb;
+  background: rgba(13, 148, 136, 0.06);
+  transform: translateY(-1px);
 }
 
 .detail {
@@ -34,8 +35,8 @@
 .imageWrapper {
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background: #f3f4f6;
+  box-shadow: 0 6px 18px rgba(8, 15, 20, 0.06);
+  background: linear-gradient(180deg, #e6fffb 0%, #fbfeff 100%);
 }
 
 .image {
@@ -58,30 +59,31 @@
 }
 
 .title {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 700;
-  color: #1f2937;
+  color: #052f2a;
   margin: 0;
   flex: 1;
 }
 
 .categoryBadge {
-  padding: 6px 14px;
-  border-radius: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   color: white;
   text-transform: uppercase;
   white-space: nowrap;
+  letter-spacing: 0.6px;
 }
 
 .meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background: #f9fafb;
-  border-radius: 12px;
+  padding: 18px;
+  background: rgba(14, 148, 136, 0.04);
+  border-radius: 10px;
 }
 
 .ratingDisplay {
@@ -91,9 +93,9 @@
 }
 
 .ratingValue {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
-  color: #1f2937;
+  color: #074e49;
 }
 
 .ratingCount {
@@ -102,9 +104,9 @@
 }
 
 .priceDisplay {
-  font-size: 36px;
-  font-weight: 700;
-  color: #1f2937;
+  font-size: 28px;
+  font-weight: 800;
+  color: #072f2b;
 }
 
 .priceFree {
@@ -136,22 +138,22 @@
 }
 
 .primaryButton {
-  background: #3b82f6;
+  background: #0ea5a4;
   color: white;
 }
 
 .primaryButton:hover {
-  background: #2563eb;
+  background: #0b8f86;
 }
 
 .secondaryButton {
   background: transparent;
-  color: #3b82f6;
-  border: 2px solid #3b82f6;
+  color: #0ea5a4;
+  border: 2px solid rgba(14, 165, 164, 0.18);
 }
 
 .secondaryButton:hover {
-  background: #3b82f6;
+  background: #0ea5a4;
   color: white;
 }
 

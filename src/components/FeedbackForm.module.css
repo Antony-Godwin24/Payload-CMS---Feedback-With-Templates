@@ -1,9 +1,9 @@
 .container {
-  background: white;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfeff 100%);
   border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
+  padding: 20px;
+  box-shadow: 0 8px 22px rgba(8, 15, 20, 0.06);
+  max-width: 640px;
   margin: 0 auto;
 }
 
@@ -13,10 +13,10 @@
 }
 
 .header h3 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 8px 0;
+  color: #052f2a;
+  margin: 0 0 6px 0;
 }
 
 .subtitle {
@@ -54,8 +54,8 @@
 
 .formControl:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+  border-color: #0ea5a4;
+  box-shadow: 0 0 0 4px rgba(14, 165, 164, 0.08);
 }
 
 .textarea {
@@ -66,9 +66,9 @@
 .ratingInput {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px;
-  background: #f9fafb;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(14,165,164,0.04);
   border-radius: 8px;
 }
 
@@ -118,22 +118,22 @@
 }
 
 .primaryButton {
-  background: #3b82f6;
+  background: #0ea5a4;
   color: white;
 }
 
 .primaryButton:hover:not(:disabled) {
-  background: #2563eb;
+  background: #0b8f86;
 }
 
 .secondaryButton {
   background: transparent;
-  color: #3b82f6;
-  border: 2px solid #3b82f6;
+  color: #0ea5a4;
+  border: 2px solid rgba(14,165,164,0.12);
 }
 
 .secondaryButton:hover:not(:disabled) {
-  background: #3b82f6;
+  background: #0ea5a4;
   color: white;
 }
 

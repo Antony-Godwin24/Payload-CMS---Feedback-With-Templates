@@ -16,15 +16,16 @@
 }
 
 .item {
-  background: white;
+  background: linear-gradient(180deg,#ffffff 0%, #fbfeff 100%);
   border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s ease;
+  padding: 18px;
+  box-shadow: 0 8px 18px rgba(8, 15, 20, 0.05);
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
 }
 
 .item:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 14px 34px rgba(8, 15, 20, 0.06);
+  transform: translateY(-2px);
 }
 
 .header {
@@ -46,13 +47,13 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0ea5a4 0%, #7c3aed 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 800;
   flex-shrink: 0;
 }
 

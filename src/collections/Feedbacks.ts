@@ -70,11 +70,17 @@ export const Feedbacks: CollectionConfig = {
   hooks: {
     afterChange: [
       async ({ doc, req, operation }) => {
-        // Recalculate template ratings when feedback is created/updated
-        if (operation === 'create' || operation === 'update') {
-          const templateId = typeof doc.template === 'object' ? doc.template.id : doc.template
-          
-          if (templateId) {
+        try {
+          // Recalculate template ratings when feedback is created/updated
+          if (operation === 'create' || operation === 'update') {
+            // Defensive extraction of template id
+            const templateId = doc && typeof doc.template === 'object' ? doc.template.id : doc && doc.template
+
+            if (!templateId) {
+              req.logger && req.logger.warn && req.logger.warn('Feedbacks.afterChange: missing template id', { doc })
+              return
+            }
+
             const feedbacks = await req.payload.find({
               collection: 'feedbacks',
               where: {
@@ -109,6 +115,13 @@ export const Feedbacks: CollectionConfig = {
                 },
               })
             }
+          }
+        } catch (err) {
+          if (req && req.logger && typeof req.logger.error === 'function') {
+            req.logger.error('Feedbacks.afterChange error', err)
+          } else {
+            // eslint-disable-next-line no-console
+            console.error('Feedbacks.afterChange error', err)
           }
         }
       },

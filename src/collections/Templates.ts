@@ -34,7 +34,7 @@ export const Templates: CollectionConfig = {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
-      required: true,
+      required: false,
     },
     {
       name: 'demoUrl',
@@ -129,40 +129,57 @@ export const Templates: CollectionConfig = {
   hooks: {
     afterChange: [
       async ({ doc, req }) => {
-        // Calculate average rating from feedbacks
-        const feedbacks = await req.payload.find({
-          collection: 'feedbacks',
-          where: {
-            template: {
-              equals: doc.id,
+        try {
+          // Defensive: ensure doc and doc.id exist
+          if (!doc || !doc.id) {
+            req.logger && req.logger.warn && req.logger.warn('Templates.afterChange: missing doc or doc.id', { doc })
+            return
+          }
+
+          // Calculate average rating from feedbacks
+          const feedbacks = await req.payload.find({
+            collection: 'feedbacks',
+            where: {
+              template: {
+                equals: doc.id,
+              },
             },
-          },
-        })
-
-        if (feedbacks.docs.length > 0) {
-          const totalRating = feedbacks.docs.reduce(
-            (sum, feedback) => sum + (feedback.rating || 0),
-            0
-          )
-          const averageRating = totalRating / feedbacks.docs.length
-
-          await req.payload.update({
-            collection: 'templates',
-            id: doc.id,
-            data: {
-              averageRating: Math.round(averageRating * 10) / 10, // Round to 1 decimal
-              totalRatings: feedbacks.docs.length,
-            } as Partial<Record<string, unknown>>,
           })
-        } else {
-          await req.payload.update({
-            collection: 'templates',
-            id: doc.id,
-            data: {
-              averageRating: 0,
-              totalRatings: 0,
-            } as Partial<Record<string, unknown>>,
-          })
+
+          if (feedbacks.docs.length > 0) {
+            const totalRating = feedbacks.docs.reduce(
+              (sum, feedback) => sum + (feedback.rating || 0),
+              0
+            )
+            const averageRating = totalRating / feedbacks.docs.length
+
+            await req.payload.update({
+              collection: 'templates',
+              id: doc.id,
+              data: {
+                averageRating: Math.round(averageRating * 10) / 10, // Round to 1 decimal
+                totalRatings: feedbacks.docs.length,
+              } as Partial<Record<string, unknown>>,
+            })
+          } else {
+            await req.payload.update({
+              collection: 'templates',
+              id: doc.id,
+              data: {
+                averageRating: 0,
+                totalRatings: 0,
+              } as Partial<Record<string, unknown>>,
+            })
+          }
+        } catch (err) {
+          // Log error but don't crash the request pipeline
+          if (req && req.logger && typeof req.logger.error === 'function') {
+            req.logger.error('Templates.afterChange error', err)
+          } else {
+            // fallback console
+            // eslint-disable-next-line no-console
+            console.error('Templates.afterChange error', err)
+          }
         }
       },
     ],
